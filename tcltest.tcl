@@ -35,14 +35,16 @@ proc print_testcase {} {
   global testcase
 
   puts "---"
-  foreach pattern $testcase {
-    lassign $pattern input output
-    set result [main $input]
+  foreach case $testcase {
+    set input  [lrange $case 0 end-1]
+    set output [lindex $case end]
+
+    set result [main {*}$input]
 
     if {$result eq $output} {
-      puts [list "PASS:" $output <- $input]
+      puts "PASS: [list $output] <- $input"
     } else {
-      puts [list "FAIL:" [list $output <- $input]]
+      puts "FAIL: [list $result] <- $input"
     }
   }
   puts "---"
